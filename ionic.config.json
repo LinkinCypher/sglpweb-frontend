@@ -1,0 +1,7 @@
+{
+  "name": "sglpweb-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

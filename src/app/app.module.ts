@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http'; // Importa HttpClientMo
     BrowserModule,
     IonicModule.forRoot(), // Configuración global de Ionic
     AppRoutingModule,
-    HttpClientModule, // Inclúyelo aquí
+    HttpClientModule, 
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

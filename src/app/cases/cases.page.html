@@ -19,7 +19,8 @@
     <ion-item *ngFor="let caso of casos">
       <ion-label>
         <h2>{{ caso.numeroCaso }}</h2>
-        <p>{{ caso.nombreCliente }} - {{ caso.tipo }}</p>
+        <p>Cliente: {{ caso.nombreCliente }} - Caso: {{ caso.tipo }}</p>
+        <p>Detalle: {{ caso.detalles }}</p>
       </ion-label>
       <ion-button fill="clear" color="primary" (click)="editCase(caso)">
         Editar

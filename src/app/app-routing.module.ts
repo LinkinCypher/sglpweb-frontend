@@ -17,7 +17,13 @@ const routes: Routes = [
     path: 'dashboard',
     loadComponent: () =>
       import('./dashboard/dashboard.page').then((m) => m.DashboardPage),
-    canActivate: [AuthGuard], // Protege esta ruta con el guard
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'cases',
+    loadComponent: () =>
+      import('./cases/cases.page').then((m) => m.CasesPage),
+    canActivate: [AuthGuard], // Protege la ruta con el guard
   },
 ];
 

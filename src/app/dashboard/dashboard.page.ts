@@ -29,4 +29,16 @@ export class DashboardPage implements OnInit {
     localStorage.removeItem('token'); // Eliminar el token
     this.router.navigate(['/login']); // Redirigir al login
   }
+
+  goToCases() {
+    this.router.navigate(['/cases']);
+  }
+
+  goToTasks() {
+    this.router.navigate(['/tasks']);
+  }
+
+  goToCalendar() {
+    this.router.navigate(['/calendar']);
+  }
 }

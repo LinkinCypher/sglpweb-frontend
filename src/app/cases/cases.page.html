@@ -1,8 +1,15 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goTo()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Gestión de Casos</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+      <ion-button (click)="logout()">
+        <ion-icon name="close" size="large" color="danger"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

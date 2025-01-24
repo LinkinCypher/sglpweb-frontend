@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CasesService } from '../services/cases.service';
 import { ToastController } from '@ionic/angular';
+import { CasesEventService } from '../services/cases-event.service';
 
 @Component({
   selector: 'app-cases-create',
@@ -23,6 +24,7 @@ export class CasesCreatePage {
 
   constructor(
     private casesService: CasesService,
+    private casesEventService: CasesEventService,
     private router: Router,
     private toastController: ToastController
   ) {}
@@ -31,7 +33,12 @@ export class CasesCreatePage {
     try {
       await this.casesService.createCase(this.form).toPromise();
       this.showToast('Caso creado exitosamente');
-      this.router.navigate(['/cases']); // Redirigir al listado de casos
+
+      // Emitir el evento para actualizar la lista de casos
+      this.casesEventService.emitRefreshCases();
+
+      // Redirigir al listado de casos
+      this.router.navigate(['/cases']);
     } catch (error) {
       console.error('Error al crear el caso:', error);
       this.showToast('Error al crear el caso');
@@ -45,5 +52,9 @@ export class CasesCreatePage {
       position: 'top',
     });
     await toast.present();
+  }
+
+  goTo() {
+    this.router.navigate(['/cases']); // Redirigir al dashboard
   }
 }

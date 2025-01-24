@@ -69,5 +69,9 @@ export class CasesPage implements OnInit {
     localStorage.removeItem('token'); // Elimina el token del almacenamiento local
     this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
   }
+
+  goTo() {
+    this.router.navigate(['/dashboard']); // Redirigir al dashboard
+  }
   
 }

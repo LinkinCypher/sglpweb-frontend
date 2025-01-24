@@ -83,4 +83,8 @@ export class CasesEditPage {
     });
     await toast.present();
   }
+
+  goTo() {
+    this.router.navigate(['/cases']); // Redirigir al dashboard
+  }
 }

@@ -22,12 +22,14 @@
         <p>Cliente: {{ caso.nombreCliente }} - Caso: {{ caso.tipo }}</p>
         <p>Detalle: {{ caso.detalles }}</p>
       </ion-label>
-      <ion-button fill="clear" color="primary" (click)="editCase(caso)">
-        Editar
-      </ion-button>
-      <ion-button fill="clear" color="danger" (click)="deleteCase(caso._id)">
-        Eliminar
-      </ion-button>
+      <ion-buttons slot="end">
+        <ion-button (click)="editCase(caso)" color="primary">
+          Editar
+        </ion-button>
+        <ion-button (click)="confirmDeleteCase(caso._id)" color="primary">
+          Eliminar
+        </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
 

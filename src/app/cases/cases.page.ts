@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { CasesService } from '../services/cases.service';
 import { CasesEventService } from '../services/cases-event.service';
@@ -16,8 +16,9 @@ export class CasesPage implements OnInit {
   casos: any[] = [];
 
   constructor(
-    private casesService: CasesService, 
+    private casesService: CasesService,
     private router: Router,
+    private alertController: AlertController,
     private casesEventService: CasesEventService
   ) {}
 
@@ -52,6 +53,28 @@ export class CasesPage implements OnInit {
     this.router.navigate(['/cases-edit', caso._id]);
   }
 
+  // Mostrar confirmación antes de eliminar un caso
+  async confirmDeleteCase(id: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: '¿Estás seguro de que deseas eliminar este caso?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.deleteCase(id);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
   // Eliminar un caso
   deleteCase(id: string) {
     this.casesService.deleteCase(id).subscribe(
@@ -73,5 +96,4 @@ export class CasesPage implements OnInit {
   goTo() {
     this.router.navigate(['/dashboard']); // Redirigir al dashboard
   }
-  
 }

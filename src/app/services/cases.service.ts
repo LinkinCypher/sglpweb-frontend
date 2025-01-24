@@ -1,22 +1,40 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CasesService {
-  private apiUrl = `${environment.backendUrl}/cases`;
+  private apiUrl = 'http://localhost:3000/cases';
 
   constructor(private http: HttpClient) {}
 
-  // Obtener casos
-  getCases() {
-    return this.http.get<any[]>(this.apiUrl);
+  // Obtener el token del almacenamiento local
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
   }
 
-  // Crear caso
-  createCase(caso: any) {
-    return this.http.post<any>(this.apiUrl, caso);
+  // Listar casos
+  getCases(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl, { headers: this.getHeaders() });
+  }
+
+  // Crear un caso
+  createCase(data: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, data, { headers: this.getHeaders() });
+  }
+
+  // Editar un caso
+  updateCase(id: string, data: any): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}`, data, { headers: this.getHeaders() });
+  }
+
+  // Eliminar un caso
+  deleteCase(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 }

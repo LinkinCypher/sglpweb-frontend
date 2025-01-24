@@ -1,65 +1,73 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
 import { CasesService } from '../services/cases.service';
+import { CasesEventService } from '../services/cases-event.service';
 
 @Component({
   selector: 'app-cases',
-  standalone: true,
   templateUrl: './cases.page.html',
   styleUrls: ['./cases.page.scss'],
-  imports: [CommonModule, FormsModule, IonicModule],
+  standalone: true,
+  imports: [IonicModule, CommonModule],
 })
 export class CasesPage implements OnInit {
-  casos: any[] = []; // Lista de casos
-  isModalOpen = false; // Controla si el modal está abierto o cerrado
-  newCase = {
-    nombre: '',
-    tipo: '',
-    fechaInicio: '',
-  }; // Datos del nuevo caso
+  casos: any[] = [];
 
-  constructor(private casesService: CasesService) {}
+  constructor(
+    private casesService: CasesService, 
+    private router: Router,
+    private casesEventService: CasesEventService
+  ) {}
 
   ngOnInit() {
     this.loadCases();
+
+    // Suscribirse al evento de actualización
+    this.casesEventService.refreshCases$.subscribe(() => {
+      this.loadCases();
+    });
   }
 
-  // Método para cargar los casos desde el servicio
+  // Cargar los casos del usuario autenticado
   loadCases() {
-    this.casesService.getCases().subscribe({
-      next: (data) => {
-        console.log('Casos cargados:', data);
+    this.casesService.getCases().subscribe(
+      (data) => {
         this.casos = data;
       },
-      error: (err) => {
-        console.error('Error al cargar casos:', err);
-      },
-    });
+      (error) => {
+        console.error('Error al cargar los casos:', error);
+      }
+    );
   }
 
-  // Abrir el modal
-  openModal() {
-    this.isModalOpen = true;
+  // Redirigir al formulario de creación de casos
+  addCase() {
+    this.router.navigate(['/cases-create']);
   }
 
-  // Cerrar el modal
-  closeModal() {
-    this.isModalOpen = false;
+  // Redirigir al formulario de edición de un caso
+  editCase(caso: any) {
+    this.router.navigate(['/cases-edit', caso._id]);
   }
 
-  // Crear un nuevo caso
-  createCase() {
-    this.casesService.createCase(this.newCase).subscribe({
-      next: (data) => {
-        console.log('Caso creado:', data);
-        this.casos.push(data); // Agregar el caso a la lista
-        this.closeModal(); // Cerrar el modal
+  // Eliminar un caso
+  deleteCase(id: string) {
+    this.casesService.deleteCase(id).subscribe(
+      () => {
+        this.loadCases();
       },
-      error: (err) => {
-        console.error('Error al crear caso:', err);
-      },
-    });
+      (error) => {
+        console.error('Error al eliminar el caso:', error);
+      }
+    );
   }
+
+  // Cerrar sesión
+  logout() {
+    localStorage.removeItem('token'); // Elimina el token del almacenamiento local
+    this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
+  }
+  
 }

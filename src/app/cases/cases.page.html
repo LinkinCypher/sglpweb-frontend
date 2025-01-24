@@ -2,71 +2,31 @@
   <ion-toolbar>
     <ion-title>Gestión de Casos</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="openModal()">Agregar Caso</ion-button>
+      <ion-button (click)="logout()">Cerrar Sesión</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- Lista de Casos -->
   <ion-list>
     <ion-item *ngFor="let caso of casos">
       <ion-label>
-        <h2>{{ caso.nombre }}</h2>
-        <p>Tipo: {{ caso.tipo }}</p>
-        <p>Fecha: {{ caso.fechaInicio | date }}</p>
+        <h2>{{ caso.numeroCaso }}</h2>
+        <p>{{ caso.nombreCliente }} - {{ caso.tipo }}</p>
       </ion-label>
+      <ion-button fill="clear" color="primary" (click)="editCase(caso)">
+        Editar
+      </ion-button>
+      <ion-button fill="clear" color="danger" (click)="deleteCase(caso._id)">
+        Eliminar
+      </ion-button>
     </ion-item>
   </ion-list>
 
-  <!-- Modal para Crear Caso -->
-  <ion-modal [isOpen]="isModalOpen" (willDismiss)="closeModal()">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Crear Nuevo Caso</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content>
-        <form (ngSubmit)="createCase()">
-          <ion-item>
-            <ion-label position="stacked">Nombre</ion-label>
-            <ion-input
-              [(ngModel)]="newCase.nombre"
-              name="nombre"
-              required
-            ></ion-input>
-          </ion-item>
-
-          <ion-item>
-            <ion-label position="stacked">Tipo</ion-label>
-            <ion-select [(ngModel)]="newCase.tipo" name="tipo" required>
-              <ion-select-option value="Derecho Familiar">
-                Derecho Familiar
-              </ion-select-option>
-              <ion-select-option value="Litigio Corporativo">
-                Litigio Corporativo
-              </ion-select-option>
-              <ion-select-option value="Otro">Otro</ion-select-option>
-            </ion-select>
-          </ion-item>
-
-          <ion-item>
-            <ion-label position="stacked">Fecha de Inicio</ion-label>
-            <ion-datetime
-              [(ngModel)]="newCase.fechaInicio"
-              name="fechaInicio"
-              display-format="yyyy-MM-dd"
-            ></ion-datetime>
-          </ion-item>
-
-          <ion-button expand="block" type="submit">Guardar</ion-button>
-          <ion-button expand="block" color="medium" (click)="closeModal()">
-            Cancelar
-          </ion-button>
-        </form>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addCase()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    
+  </ion-fab>
 </ion-content>

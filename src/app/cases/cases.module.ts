@@ -15,6 +15,6 @@ import { CasesPage } from './cases.page';
     IonicModule,
     CasesPageRoutingModule
   ],
-  declarations: [CasesPage]
+  declarations: []
 })
 export class CasesPageModule {}

@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'cases-create', loadComponent: () => import('./cases-create/cases-create.page').then(m => m.CasesCreatePage) },
   { path: 'cases-edit/:id', loadComponent: () => import('./cases-edit/cases-edit.page').then(m => m.CasesEditPage) },
   { path: 'tasks', loadComponent: () => import('./tasks/tasks.page').then( m => m.TasksPage) },
-  { path: 'tasks-create', loadComponent: () => import('./tasks-create/tasks-create.page').then( m => m.TasksCreatePage) },
+  { path: 'tasks-create', loadComponent: () => import('./tasks-create/tasks-create.page').then((m) => m.TasksCreatePage) },
   { path: 'tasks-edit', loadComponent: () => import('./tasks-edit/tasks-edit.page').then( m => m.TasksEditPage) },
 ];
 

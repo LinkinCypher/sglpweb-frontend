@@ -1,38 +1,40 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goTo()">
-        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
     <ion-title>Crear Tarea</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form (submit)="onSubmit()">
-    <ion-list>
-      <ion-item>
-        <ion-label position="stacked">Título</ion-label>
-        <ion-input [(ngModel)]="form.titulo" name="titulo" required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Descripción</ion-label>
-        <ion-textarea [(ngModel)]="form.descripcion" name="descripcion"></ion-textarea>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Fecha Límite</ion-label>
-        <ion-datetime [(ngModel)]="form.fechaLimite" name="fechaLimite" required></ion-datetime>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Estado</ion-label>
-        <ion-select [(ngModel)]="form.estado" name="estado" required>
-          <ion-select-option value="pendiente">Pendiente</ion-select-option>
-          <ion-select-option value="en progreso">En Progreso</ion-select-option>
-          <ion-select-option value="completada">Completada</ion-select-option>
-        </ion-select>
-      </ion-item>
-    </ion-list>
-    <ion-button expand="block" type="submit">Guardar</ion-button>
+  <form (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Título</ion-label>
+      <ion-input [(ngModel)]="form.titulo" name="titulo" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Descripción</ion-label>
+      <ion-textarea [(ngModel)]="form.descripcion" name="descripcion"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Fecha Límite</ion-label>
+      <ion-datetime
+        [(ngModel)]="form.fechaLimite"
+        name="fechaLimite"
+        presentation="date"
+        required
+      ></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Caso</ion-label>
+      <ion-select [(ngModel)]="form.casoId" name="casoId" required>
+        <ion-select-option *ngFor="let caso of casos" [value]="caso._id">
+          {{ caso.numeroCaso }} - {{ caso.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-button expand="full" type="submit">Crear Tarea</ion-button>
   </form>
 </ion-content>

@@ -23,8 +23,8 @@ export class TasksPage implements OnInit {
 
   ngOnInit() {
     this.casoId = this.route.snapshot.paramMap.get('casoId');
-    if (this.casoId) {
-      this.loadTasks();
+    if (!this.casoId) {
+      console.error('No se recibió un casoId en la URL.');
     }
   }
 
@@ -41,8 +41,8 @@ export class TasksPage implements OnInit {
 
   // Redirige a la página de creación
   addTask() {
-    this.router.navigate(['/tasks-create', this.casoId]);
-  }
+    this.router.navigate(['/tasks-create']);
+  }  
 
   // Navegar a la página de edición
   editTask(task: any) {

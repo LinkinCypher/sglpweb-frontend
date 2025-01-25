@@ -38,4 +38,11 @@ export class TasksService {
   deleteTask(id: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
+
+  // Obtener todos los casos
+  getAllCases(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/cases', {
+      headers: this.getHeaders(),
+    });
+  }
 }

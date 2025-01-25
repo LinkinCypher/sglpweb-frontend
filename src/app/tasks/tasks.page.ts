@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TasksService } from '../services/tasks.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -13,25 +13,17 @@ import { CommonModule } from '@angular/common';
 })
 export class TasksPage implements OnInit {
   tasks: any[] = [];
-  casoId: string | null = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private tasksService: TasksService,
-    private router: Router
-  ) {}
+  constructor(private tasksService: TasksService, private router: Router) {}
 
   ngOnInit() {
-    this.casoId = this.route.snapshot.paramMap.get('casoId');
-    if (!this.casoId) {
-      console.error('No se recibió un casoId en la URL.');
-    }
+    this.loadTasks(); // Cargar tareas al inicializar
   }
 
   loadTasks() {
-    this.tasksService.getTasksByCase(this.casoId!).subscribe(
+    this.tasksService.getTasksByUser().subscribe(
       (data) => {
-        this.tasks = data;
+        this.tasks = data; // Asignar las tareas obtenidas
       },
       (error) => {
         console.error('Error al cargar las tareas:', error);
@@ -42,7 +34,7 @@ export class TasksPage implements OnInit {
   // Redirige a la página de creación
   addTask() {
     this.router.navigate(['/tasks-create']);
-  }  
+  }
 
   // Navegar a la página de edición
   editTask(task: any) {

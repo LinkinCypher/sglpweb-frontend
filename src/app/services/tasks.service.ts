@@ -18,11 +18,11 @@ export class TasksService {
   }
 
   // Obtener tareas por caso
-  getTasksByCase(casoId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/case/${casoId}`, {
-      headers: this.getHeaders(),
+  getTasksByUser(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/tasks/user', {
+      headers: this.getHeaders(), // Asegúrate de que incluye el token JWT
     });
-  }
+  }   
 
   // Crear una nueva tarea
   createTask(data: any): Observable<any> {

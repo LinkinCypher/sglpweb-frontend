@@ -17,12 +17,12 @@ export class TasksService {
     });
   }
 
-  // Obtener tareas por caso
+  // Obtener tareas por usuario
   getTasksByUser(): Observable<any[]> {
     return this.http.get<any[]>('http://localhost:3000/tasks/user', {
-      headers: this.getHeaders(), // Asegúrate de que incluye el token JWT
+      headers: this.getHeaders(),
     });
-  }   
+  }  
 
   // Crear una nueva tarea
   createTask(data: any): Observable<any> {

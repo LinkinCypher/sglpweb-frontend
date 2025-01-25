@@ -23,7 +23,7 @@ export class TasksPage implements OnInit {
   loadTasks() {
     this.tasksService.getTasksByUser().subscribe(
       (data) => {
-        this.tasks = data; // Asignar las tareas obtenidas
+        this.tasks = data; // Asigna las tareas al arreglo local
       },
       (error) => {
         console.error('Error al cargar las tareas:', error);
@@ -31,17 +31,15 @@ export class TasksPage implements OnInit {
     );
   }
 
-  // Redirige a la página de creación
   addTask() {
     this.router.navigate(['/tasks-create']);
   }
 
-  // Navegar a la página de edición
   editTask(task: any) {
     this.router.navigate(['/tasks-edit', task._id]);
   }
 
   goTo() {
-    this.router.navigate(['/dashboard']); // Redirigir al dashboard
+    this.router.navigate(['/dashboard']);
   }
 }

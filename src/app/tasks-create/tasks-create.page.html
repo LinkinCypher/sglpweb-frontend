@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goTo()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Crear Tarea</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -35,6 +40,6 @@
       </ion-select>
     </ion-item>
 
-    <ion-button expand="full" type="submit">Crear Tarea</ion-button>
+    <ion-button expand="block" type="submit">Crear Tarea</ion-button>
   </form>
 </ion-content>

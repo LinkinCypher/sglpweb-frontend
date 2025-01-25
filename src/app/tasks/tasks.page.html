@@ -6,6 +6,11 @@
       </ion-button>
     </ion-buttons>
     <ion-title>Tareas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="close" size="large" color="danger"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -17,11 +22,11 @@
         <p>{{ task.estado }} - {{ task.fechaLimite | date }}</p>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button color="primary" (click)="editTask(task)">
-          <ion-icon slot="icon-only" name="create"></ion-icon>
+        <ion-button (click)="editTask(task)" color="primary">
+          Editar
         </ion-button>
-        <ion-button color="danger">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        <ion-button color="primary">
+          Eliminar
         </ion-button>
       </ion-buttons>
     </ion-item>

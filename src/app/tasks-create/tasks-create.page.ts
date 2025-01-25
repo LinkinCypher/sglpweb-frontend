@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { TasksService } from '../services/tasks.service';
 import { ToastController } from '@ionic/angular';
 
@@ -23,7 +24,8 @@ export class TasksCreatePage implements OnInit {
 
   constructor(
     private tasksService: TasksService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -63,5 +65,9 @@ export class TasksCreatePage implements OnInit {
       position: 'top',
     });
     await toast.present();
+  }
+
+  goTo() {
+    this.router.navigate(['/tasks']); // Redirigir al dashboard
   }
 }

@@ -19,13 +19,21 @@
     <ion-item *ngFor="let task of tasks">
       <ion-label>
         <h2>{{ task.titulo }}</h2>
-        <p>{{ task.estado }} - {{ task.fechaLimite | date }}</p>
+        <p>Estado: {{ task.estado }} - Fecha Límite: {{ task.fechaLimite | date }}</p>
+        <div *ngIf="task.evidencias.length > 0">
+          <h3>Evidencias:</h3>
+          <ul>
+            <li *ngFor="let link of task.evidencias">
+              <a [href]="link" target="_blank">{{ link }}</a>
+            </li>
+          </ul>
+        </div>
       </ion-label>
       <ion-buttons slot="end">
-        <ion-button (click)="editTask(task)" color="primary">
+        <ion-button (click)="editTask(task)" color="primary" *ngIf="task.estado !== 'eliminada'">
           Editar
         </ion-button>
-        <ion-button color="danger" (click)="confirmDelete(task._id)">
+        <ion-button color="danger" (click)="confirmDelete(task._id)" *ngIf="task.estado !== 'eliminada'">
           Eliminar
         </ion-button>
       </ion-buttons>

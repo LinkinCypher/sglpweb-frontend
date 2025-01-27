@@ -70,7 +70,6 @@ export class TasksPage implements OnInit {
   deleteTask(taskId: string) {
     this.tasksService.deleteTask(taskId).subscribe(
       (updatedTask) => {
-        // Encuentra la tarea y actualiza su estado en la lista local
         const index = this.tasks.findIndex((task) => task._id === updatedTask._id);
         if (index !== -1) {
           this.tasks[index].estado = updatedTask.estado; // Actualiza el estado localmente

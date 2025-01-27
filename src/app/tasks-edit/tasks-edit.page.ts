@@ -13,12 +13,20 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, IonicModule, FormsModule],
 })
 export class TasksEditPage implements OnInit {
-  task: any = {
+  task: {
+    titulo: string;
+    descripcion: string;
+    fechaLimite: string;
+    estado: string;
+    evidencias: string[]; // Lista de evidencias
+  } = {
     titulo: '',
     descripcion: '',
     fechaLimite: '',
     estado: 'pendiente',
+    evidencias: [], // Inicializado como un arreglo vacío
   };
+
   taskId: string | null = null;
 
   constructor(
@@ -45,16 +53,28 @@ export class TasksEditPage implements OnInit {
     );
   }
 
+  addEvidence() {
+    this.task.evidencias.push(''); // Agregar un enlace vacío
+  }
+
+  removeEvidence(index: number) {
+    this.task.evidencias.splice(index, 1); // Eliminar un enlace
+  }
+
   saveTask() {
     if (!this.taskId) return;
 
     this.tasksService.updateTask(this.taskId, this.task).subscribe(
       () => {
-        this.router.navigate(['/tasks']);
+        this.router.navigate(['/tasks']); // Redirige a la lista de tareas
       },
       (error) => {
         console.error('Error al guardar la tarea:', error);
       }
     );
+  }
+
+  goTo() {
+    this.router.navigate(['/tasks']); // Redirigir a la lista de tareas
   }
 }

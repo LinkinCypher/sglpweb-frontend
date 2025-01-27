@@ -14,12 +14,20 @@ import { ToastController } from '@ionic/angular';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class TasksCreatePage implements OnInit {
-  form = {
+  form: {
+    titulo: string;
+    descripcion: string;
+    fechaLimite: string;
+    casoId: string;
+    evidencias: string[]; // Tipo explícito para la lista de evidencias
+  } = {
     titulo: '',
     descripcion: '',
     fechaLimite: '',
-    casoId: '', // Caso relacionado con la tarea
+    casoId: '',
+    evidencias: [], // Inicializado como un arreglo vacío
   };
+
   casos: any[] = []; // Lista de casos cargados
 
   constructor(
@@ -40,6 +48,14 @@ export class TasksCreatePage implements OnInit {
       console.error('Error al cargar los casos:', error);
       this.showToast('No se pudieron cargar los casos. Inténtalo más tarde.');
     }
+  }
+
+  addEvidence() {
+    this.form.evidencias.push(''); // Agregar un enlace vacío a la lista
+  }
+
+  removeEvidence(index: number) {
+    this.form.evidencias.splice(index, 1); // Eliminar el enlace en la posición indicada
   }
 
   async onSubmit() {

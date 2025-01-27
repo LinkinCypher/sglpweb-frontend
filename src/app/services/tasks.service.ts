@@ -24,6 +24,13 @@ export class TasksService {
     });
   }  
 
+  // Obtener tareas por Id
+  getTaskById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders(),
+    });
+  }
+  
   // Crear una nueva tarea
   createTask(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, data, { headers: this.getHeaders() });
@@ -45,4 +52,5 @@ export class TasksService {
       headers: this.getHeaders(),
     });
   }
+
 }

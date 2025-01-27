@@ -8,9 +8,9 @@ const routes: Routes = [
   { path: 'dashboard', loadComponent: () => import('./dashboard/dashboard.page').then(m => m.DashboardPage) },
   { path: 'cases-create', loadComponent: () => import('./cases-create/cases-create.page').then(m => m.CasesCreatePage) },
   { path: 'cases-edit/:id', loadComponent: () => import('./cases-edit/cases-edit.page').then(m => m.CasesEditPage) },
-  { path: 'tasks', loadComponent: () => import('./tasks/tasks.page').then( m => m.TasksPage) },
-  { path: 'tasks-create', loadComponent: () => import('./tasks-create/tasks-create.page').then((m) => m.TasksCreatePage) },
-  { path: 'tasks-edit', loadComponent: () => import('./tasks-edit/tasks-edit.page').then( m => m.TasksEditPage) },
+  { path: 'tasks', loadComponent: () => import('./tasks/tasks.page').then(m => m.TasksPage) },
+  { path: 'tasks-create', loadComponent: () => import('./tasks-create/tasks-create.page').then(m => m.TasksCreatePage) },
+  { path: 'tasks-edit/:id', loadComponent: () => import('./tasks-edit/tasks-edit.page').then(m => m.TasksEditPage) },
 ];
 
 @NgModule({

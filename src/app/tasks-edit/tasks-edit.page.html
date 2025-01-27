@@ -35,6 +35,15 @@
       </ion-select>
     </ion-item>
 
+    <ion-item>
+      <ion-label position="stacked">Asignar a Usuario</ion-label>
+      <ion-select [(ngModel)]="task.assignedTo" name="assignedTo" required>
+        <ion-select-option *ngFor="let user of users" [value]="user._id">
+          {{ user.username }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <ion-list>
       <ion-item *ngFor="let evidence of task.evidencias; let i = index">
         <ion-label position="stacked">Enlace de Evidencia {{ i + 1 }}</ion-label>

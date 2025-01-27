@@ -18,15 +18,18 @@ export class TasksEditPage implements OnInit {
     descripcion: string;
     fechaLimite: string;
     estado: string;
-    evidencias: string[]; // Lista de evidencias
+    evidencias: string[];
+    assignedTo: string; // Usuario asignado
   } = {
     titulo: '',
     descripcion: '',
     fechaLimite: '',
     estado: 'pendiente',
-    evidencias: [], // Inicializado como un arreglo vacío
+    evidencias: [],
+    assignedTo: '', // Inicializar vacío
   };
 
+  users: any[] = []; // Lista de usuarios cargados
   taskId: string | null = null;
 
   constructor(
@@ -40,6 +43,7 @@ export class TasksEditPage implements OnInit {
     if (this.taskId) {
       this.loadTask();
     }
+    this.loadUsers(); // Cargar usuarios al iniciar
   }
 
   loadTask() {
@@ -51,6 +55,15 @@ export class TasksEditPage implements OnInit {
         console.error('Error al cargar la tarea:', error);
       }
     );
+  }
+
+  async loadUsers() {
+    try {
+      const response = await this.tasksService.getAllUsers().toPromise();
+      this.users = response || []; // Si no hay usuarios, asigna un arreglo vacío
+    } catch (error) {
+      console.error('Error al cargar los usuarios:', error);
+    }
   }
 
   addEvidence() {

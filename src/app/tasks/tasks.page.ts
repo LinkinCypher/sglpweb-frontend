@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TasksService } from '../services/tasks.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 
@@ -14,31 +14,77 @@ import { CommonModule } from '@angular/common';
 })
 export class TasksPage implements OnInit {
   tasks: any[] = [];
+  groupedTasks: { [key: string]: any[] } = {
+    pendiente: [],
+    'en progreso': [],
+    completada: [],
+    eliminada: [],
+  };
+  upcomingTasksCount: number = 0; // Contador de tareas próximas a vencer
 
   constructor(
     private tasksService: TasksService,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastController: ToastController
   ) {}
 
   ngOnInit() {
-    this.loadTasks(); // Cargar tareas al inicializar
+    this.loadTasks();
   }
 
   ionViewWillEnter() {
-    this.loadTasks(); // Recargar tareas al entrar en la página
+    this.loadTasks();
   }
 
   loadTasks() {
     this.tasksService.getTasksByUser().subscribe(
       (data) => {
-        this.tasks = data; // Asigna las tareas al arreglo local
+        this.tasks = data;
+        this.groupTasksByState(); // Agrupar las tareas por estado
+        this.checkUpcomingDeadlines(); // Verificar fechas próximas
       },
       (error) => {
         console.error('Error al cargar las tareas:', error);
+        this.showToast('Error al cargar las tareas', 'danger');
       }
     );
   }
+
+  groupTasksByState() {
+    this.groupedTasks = {
+      pendiente: [],
+      'en progreso': [],
+      completada: [],
+      eliminada: [],
+    };
+
+    this.tasks.forEach((task) => {
+      this.groupedTasks[task.estado]?.push(task);
+    });
+  }
+
+  checkUpcomingDeadlines() {
+    const now = new Date();
+    const upcomingTasks = this.tasks.filter((task) => {
+      const deadline = new Date(task.fechaLimite);
+      const diffInMs = deadline.getTime() - now.getTime();
+      const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+      return diffInDays > 0 && diffInDays <= 2 && task.estado === 'pendiente';
+    });
+
+    this.upcomingTasksCount = upcomingTasks.length; // Actualizar el contador
+  }
+
+  navigateToUpcomingTasks() {
+    // Opcional: Filtrar las tareas próximas a vencer dentro de las pendientes
+    this.groupedTasks['pendiente'] = this.groupedTasks['pendiente'].filter((task) => {
+      const deadline = new Date(task.fechaLimite);
+      const diffInMs = deadline.getTime() - new Date().getTime();
+      const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+      return diffInDays > 0 && diffInDays <= 2;
+    });
+  } 
 
   addTask() {
     this.router.navigate(['/tasks-create']);
@@ -70,20 +116,33 @@ export class TasksPage implements OnInit {
   deleteTask(taskId: string) {
     this.tasksService.deleteTask(taskId).subscribe(
       (updatedTask) => {
-        const index = this.tasks.findIndex((task) => task._id === updatedTask._id);
-        if (index !== -1) {
-          this.tasks[index].estado = updatedTask.estado; // Actualiza el estado localmente
-        }
+        this.tasks = this.tasks.map((task) =>
+          task._id === updatedTask._id ? updatedTask : task
+        );
+        this.groupTasksByState();
+        this.checkUpcomingDeadlines(); // Actualizar contador tras eliminación
+        this.showToast('Tarea eliminada exitosamente', 'success');
       },
       (error) => {
         console.error('Error al eliminar la tarea:', error);
+        this.showToast('Error al eliminar la tarea', 'danger');
       }
     );
   }
 
+  async showToast(message: string, color: 'success' | 'warning' | 'danger') {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      position: 'top',
+      color,
+    });
+    await toast.present();
+  }
+
   logout() {
-    localStorage.removeItem('token'); // Elimina el token del almacenamiento local
-    this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 
   goTo() {

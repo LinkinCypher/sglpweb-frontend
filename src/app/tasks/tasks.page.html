@@ -7,6 +7,15 @@
     </ion-buttons>
     <ion-title>Tareas</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="navigateToUpcomingTasks()">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-badge *ngIf="upcomingTasksCount > 0" color="danger">
+          {{ upcomingTasksCount }}
+        </ion-badge>
+      </ion-button>
+      <ion-button (click)="loadTasks()">
+        <ion-icon name="refresh" size="large" color="primary"></ion-icon>
+      </ion-button>
       <ion-button (click)="logout()">
         <ion-icon name="close" size="large" color="danger"></ion-icon>
       </ion-button>
@@ -15,30 +24,42 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let task of tasks">
-      <ion-label>
-        <h2>{{ task.titulo }}</h2>
-        <p>Estado: {{ task.estado }} - Fecha Límite: {{ task.fechaLimite | date }}</p>
-        <div *ngIf="task.evidencias.length > 0">
-          <h3>Evidencias:</h3>
-          <ul>
-            <li *ngFor="let link of task.evidencias">
-              <a [href]="link" target="_blank">{{ link }}</a>
-            </li>
-          </ul>
-        </div>
-      </ion-label>
-      <ion-buttons slot="end">
-        <ion-button (click)="editTask(task)" color="primary" *ngIf="task.estado !== 'eliminada'">
-          Editar
-        </ion-button>
-        <ion-button color="danger" (click)="confirmDelete(task._id)" *ngIf="task.estado !== 'eliminada'">
-          Eliminar
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
+  <div *ngFor="let state of ['pendiente', 'en progreso', 'completada', 'eliminada']">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ state | titlecase }}</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list *ngIf="groupedTasks[state].length > 0">
+          <ion-item *ngFor="let task of groupedTasks[state]">
+            <ion-label>
+              <h2>{{ task.titulo }}</h2>
+              <p>Estado: {{ task.estado }} - Fecha Límite: {{ task.fechaLimite | date }}</p>
+              <div *ngIf="task.evidencias.length > 0">
+                <h3>Evidencias:</h3>
+                <ul>
+                  <li *ngFor="let link of task.evidencias">
+                    <a [href]="link" target="_blank" [title]="link">{{ link | slice: 0:30 }}...</a>
+                  </li>
+                </ul>
+              </div>
+            </ion-label>
+            <ion-buttons slot="end">
+              <ion-button (click)="editTask(task)" color="primary" *ngIf="state !== 'eliminada'">
+                Editar
+              </ion-button>
+              <ion-button color="danger" (click)="confirmDelete(task._id)" *ngIf="state !== 'eliminada'">
+                Eliminar
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-list>
+        <p *ngIf="groupedTasks[state].length === 0">No hay tareas en esta categoría.</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addTask()">
       <ion-icon name="add"></ion-icon>

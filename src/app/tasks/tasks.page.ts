@@ -20,7 +20,7 @@ export class TasksPage implements OnInit {
     completada: [],
     eliminada: [],
   };
-  upcomingTasksCount: number = 0; // Contador de tareas próximas a vencer
+  upcomingTasksCount: number = 0;
 
   constructor(
     private tasksService: TasksService,
@@ -38,11 +38,11 @@ export class TasksPage implements OnInit {
   }
 
   loadTasks() {
-    this.tasksService.getTasksByUser().subscribe(
+    this.tasksService.getAssignedTasks().subscribe(
       (data) => {
         this.tasks = data;
-        this.groupTasksByState(); // Agrupar las tareas por estado
-        this.checkUpcomingDeadlines(); // Verificar fechas próximas
+        this.groupTasksByState();
+        this.checkUpcomingDeadlines();
       },
       (error) => {
         console.error('Error al cargar las tareas:', error);
@@ -73,18 +73,17 @@ export class TasksPage implements OnInit {
       return diffInDays > 0 && diffInDays <= 2 && task.estado === 'pendiente';
     });
 
-    this.upcomingTasksCount = upcomingTasks.length; // Actualizar el contador
+    this.upcomingTasksCount = upcomingTasks.length;
   }
 
   navigateToUpcomingTasks() {
-    // Opcional: Filtrar las tareas próximas a vencer dentro de las pendientes
-    this.groupedTasks['pendiente'] = this.groupedTasks['pendiente'].filter((task) => {
+    this.groupedTasks['pendiente'] = this.tasks.filter((task) => {
       const deadline = new Date(task.fechaLimite);
       const diffInMs = deadline.getTime() - new Date().getTime();
       const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-      return diffInDays > 0 && diffInDays <= 2;
+      return diffInDays > 0 && diffInDays <= 2 && task.estado === 'pendiente';
     });
-  } 
+  }
 
   addTask() {
     this.router.navigate(['/tasks-create']);
@@ -120,7 +119,7 @@ export class TasksPage implements OnInit {
           task._id === updatedTask._id ? updatedTask : task
         );
         this.groupTasksByState();
-        this.checkUpcomingDeadlines(); // Actualizar contador tras eliminación
+        this.checkUpcomingDeadlines();
         this.showToast('Tarea eliminada exitosamente', 'success');
       },
       (error) => {
@@ -148,4 +147,20 @@ export class TasksPage implements OnInit {
   goTo() {
     this.router.navigate(['/dashboard']);
   }
+
+  getColorForState(state: string): string {
+    switch (state) {
+      case 'pendiente':
+        return 'warning';
+      case 'en progreso':
+        return 'primary';
+      case 'completada':
+        return 'success';
+      case 'eliminada':
+        return 'medium'; // Color neutro para tareas eliminadas
+      default:
+        return 'light';
+    }
+  }
+  
 }

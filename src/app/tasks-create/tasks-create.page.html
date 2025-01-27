@@ -40,6 +40,15 @@
       </ion-select>
     </ion-item>
 
+    <ion-item>
+      <ion-label>Asignar a</ion-label>
+      <ion-select [(ngModel)]="form.assignedTo" name="assignedTo" required>
+        <ion-select-option *ngFor="let user of usuarios" [value]="user._id">
+          {{ user.nombre }} ({{ user.username }})
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
     <ion-list>
       <ion-item *ngFor="let evidence of form.evidencias; let i = index">
         <ion-label position="floating">Enlace de Evidencia {{ i + 1 }}</ion-label>

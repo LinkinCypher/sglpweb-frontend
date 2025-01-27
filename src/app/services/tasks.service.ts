@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class TasksService {
   private apiUrl = 'http://localhost:3000/tasks';
+  private usersApiUrl = 'http://localhost:3000/auth/users'; // Endpoint para usuarios
 
   constructor(private http: HttpClient) {}
 
@@ -17,20 +18,20 @@ export class TasksService {
     });
   }
 
-  // Obtener tareas por usuario
-  getTasksByUser(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:3000/tasks/user', {
+  // Obtener tareas asignadas al usuario autenticado
+  getAssignedTasks(): Observable<any[]> {
+    return this.http.get<any[]>('http://localhost:3000/tasks/assigned', {
       headers: this.getHeaders(),
     });
-  }  
+  }
 
-  // Obtener tareas por Id
+  // Obtener una tarea por ID
   getTaskById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`, {
       headers: this.getHeaders(),
     });
   }
-  
+
   // Crear una nueva tarea
   createTask(data: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, data, { headers: this.getHeaders() });
@@ -46,7 +47,7 @@ export class TasksService {
     return this.http.delete(`${this.apiUrl}/${id}`, {
       headers: this.getHeaders(),
     });
-  }  
+  }
 
   // Obtener todos los casos
   getAllCases(): Observable<any[]> {
@@ -55,4 +56,10 @@ export class TasksService {
     });
   }
 
+  // Obtener todos los usuarios
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(this.usersApiUrl, {
+      headers: this.getHeaders(),
+    });
+  }
 }

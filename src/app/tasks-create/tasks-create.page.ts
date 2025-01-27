@@ -19,16 +19,19 @@ export class TasksCreatePage implements OnInit {
     descripcion: string;
     fechaLimite: string;
     casoId: string;
-    evidencias: string[]; // Tipo explícito para la lista de evidencias
+    evidencias: string[];
+    assignedTo: string; // Usuario al que se asigna la tarea
   } = {
     titulo: '',
     descripcion: '',
     fechaLimite: '',
     casoId: '',
-    evidencias: [], // Inicializado como un arreglo vacío
+    evidencias: [],
+    assignedTo: '', // Inicialmente vacío
   };
 
   casos: any[] = []; // Lista de casos cargados
+  usuarios: any[] = []; // Lista de usuarios disponibles
 
   constructor(
     private tasksService: TasksService,
@@ -37,29 +40,40 @@ export class TasksCreatePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadCases(); // Cargar los casos al iniciar
+    this.loadCases(); // Cargar los casos
+    this.loadUsers(); // Cargar los usuarios
   }
 
   async loadCases() {
     try {
       const response = await this.tasksService.getAllCases().toPromise();
-      this.casos = response || []; // Si no hay casos, asigna un arreglo vacío
+      this.casos = response || [];
     } catch (error) {
       console.error('Error al cargar los casos:', error);
       this.showToast('No se pudieron cargar los casos. Inténtalo más tarde.');
     }
   }
 
+  async loadUsers() {
+    try {
+      const response = await this.tasksService.getAllUsers().toPromise();
+      this.usuarios = response || [];
+    } catch (error) {
+      console.error('Error al cargar los usuarios:', error);
+      this.showToast('No se pudieron cargar los usuarios. Inténtalo más tarde.');
+    }
+  }
+
   addEvidence() {
-    this.form.evidencias.push(''); // Agregar un enlace vacío a la lista
+    this.form.evidencias.push('');
   }
 
   removeEvidence(index: number) {
-    this.form.evidencias.splice(index, 1); // Eliminar el enlace en la posición indicada
+    this.form.evidencias.splice(index, 1);
   }
 
   async onSubmit() {
-    if (!this.form.titulo || !this.form.fechaLimite || !this.form.casoId) {
+    if (!this.form.titulo || !this.form.fechaLimite || !this.form.casoId || !this.form.assignedTo) {
       this.showToast('Por favor, completa todos los campos obligatorios.');
       return;
     }

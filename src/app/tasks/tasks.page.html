@@ -25,7 +25,7 @@
 
 <ion-content>
   <div *ngFor="let state of ['pendiente', 'en progreso', 'completada', 'eliminada']">
-    <ion-card>
+    <ion-card [color]="getColorForState(state)">
       <ion-card-header>
         <ion-card-title>{{ state | titlecase }}</ion-card-title>
       </ion-card-header>
@@ -43,6 +43,9 @@
                     <a [href]="link" target="_blank" [title]="link">{{ link | slice: 0:30 }}...</a>
                   </li>
                 </ul>
+              </div>
+              <div *ngIf="task.evidencias.length === 0">
+                <p>No hay evidencias para esta tarea.</p>
               </div>
             </ion-label>
             <ion-buttons slot="end">

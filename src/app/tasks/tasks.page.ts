@@ -43,6 +43,7 @@ export class TasksPage implements OnInit {
         this.tasks = data;
         this.groupTasksByState();
         this.checkUpcomingDeadlines();
+        this.checkAndNotifyUpcomingDeadlines(); // Notificaciones al cargar
       },
       (error) => {
         console.error('Error al cargar las tareas:', error);
@@ -70,10 +71,25 @@ export class TasksPage implements OnInit {
       const deadline = new Date(task.fechaLimite);
       const diffInMs = deadline.getTime() - now.getTime();
       const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-      return diffInDays > 0 && diffInDays <= 2 && task.estado === 'pendiente';
+      return (
+        diffInDays > 0 &&
+        diffInDays <= 2 &&
+        (task.estado === 'pendiente' || task.estado === 'en progreso') // Incluir ambos estados
+      );
     });
-
+  
     this.upcomingTasksCount = upcomingTasks.length;
+  }
+
+  async checkAndNotifyUpcomingDeadlines() {
+    if (this.upcomingTasksCount > 0) {
+      const alert = await this.alertController.create({
+        header: 'Tareas próximas a vencer',
+        message: `Tienes ${this.upcomingTasksCount} tareas próximas a vencer en los próximos 2 días.`,
+        buttons: ['Entendido'],
+      });
+      await alert.present();
+    }
   }
 
   navigateToUpcomingTasks() {
@@ -157,10 +173,9 @@ export class TasksPage implements OnInit {
       case 'completada':
         return 'success';
       case 'eliminada':
-        return 'medium'; // Color neutro para tareas eliminadas
+        return 'medium';
       default:
         return 'light';
     }
   }
-  
 }

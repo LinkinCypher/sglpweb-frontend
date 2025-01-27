@@ -11,6 +11,9 @@ const routes: Routes = [
   { path: 'tasks', loadComponent: () => import('./tasks/tasks.page').then(m => m.TasksPage) },
   { path: 'tasks-create', loadComponent: () => import('./tasks-create/tasks-create.page').then(m => m.TasksCreatePage) },
   { path: 'tasks-edit/:id', loadComponent: () => import('./tasks-edit/tasks-edit.page').then(m => m.TasksEditPage) },
+  { path: 'calendar', loadComponent: () => import('./calendar/calendar.page').then( m => m.CalendarPage)
+  },
+
 ];
 
 @NgModule({

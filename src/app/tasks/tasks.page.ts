@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TasksService } from '../services/tasks.service';
+import { AlertController } from '@ionic/angular';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 
@@ -14,10 +15,18 @@ import { CommonModule } from '@angular/common';
 export class TasksPage implements OnInit {
   tasks: any[] = [];
 
-  constructor(private tasksService: TasksService, private router: Router) {}
+  constructor(
+    private tasksService: TasksService,
+    private router: Router,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
     this.loadTasks(); // Cargar tareas al inicializar
+  }
+
+  ionViewWillEnter() {
+    this.loadTasks(); // Recargar tareas al entrar en la página
   }
 
   loadTasks() {
@@ -39,7 +48,40 @@ export class TasksPage implements OnInit {
     this.router.navigate(['/tasks-edit', task._id]);
   }
 
-  // Cerrar sesión
+  async confirmDelete(taskId: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar Eliminación',
+      message: '¿Estás seguro de que deseas eliminar esta tarea?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: () => this.deleteTask(taskId),
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  deleteTask(taskId: string) {
+    this.tasksService.deleteTask(taskId).subscribe(
+      (updatedTask) => {
+        // Encuentra la tarea y actualiza su estado en la lista local
+        const index = this.tasks.findIndex((task) => task._id === updatedTask._id);
+        if (index !== -1) {
+          this.tasks[index].estado = updatedTask.estado; // Actualiza el estado localmente
+        }
+      },
+      (error) => {
+        console.error('Error al eliminar la tarea:', error);
+      }
+    );
+  }
+
   logout() {
     localStorage.removeItem('token'); // Elimina el token del almacenamiento local
     this.router.navigate(['/login']); // Redirige a la página de inicio de sesión

@@ -18,43 +18,43 @@ export class TasksCreatePage implements OnInit {
     titulo: '',
     descripcion: '',
     fechaLimite: '',
-    casoId: '', // Se seleccionará del desplegable
+    casoId: '', // Caso relacionado con la tarea
   };
-  casos: any[] = []; // Inicializado como un arreglo vacío
+  casos: any[] = []; // Lista de casos cargados
 
   constructor(
     private tasksService: TasksService,
     private toastController: ToastController,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.loadCases(); // Cargar casos al iniciar
+    this.loadCases(); // Cargar los casos al iniciar
   }
 
   async loadCases() {
     try {
       const response = await this.tasksService.getAllCases().toPromise();
-      this.casos = response || []; // Si la respuesta es undefined, asigna un arreglo vacío
+      this.casos = response || []; // Si no hay casos, asigna un arreglo vacío
     } catch (error) {
       console.error('Error al cargar los casos:', error);
-      this.showToast('Error al cargar los casos');
-      this.casos = []; // En caso de error, asigna un arreglo vacío para evitar problemas
+      this.showToast('No se pudieron cargar los casos. Inténtalo más tarde.');
     }
   }
 
   async onSubmit() {
     if (!this.form.titulo || !this.form.fechaLimite || !this.form.casoId) {
-      this.showToast('Por favor, completa todos los campos obligatorios');
+      this.showToast('Por favor, completa todos los campos obligatorios.');
       return;
     }
 
     try {
       await this.tasksService.createTask(this.form).toPromise();
       this.showToast('Tarea creada exitosamente');
+      this.router.navigate(['/tasks']); // Redirigir a la lista de tareas
     } catch (error) {
       console.error('Error al crear la tarea:', error);
-      this.showToast('Error al crear la tarea');
+      this.showToast('No se pudo crear la tarea. Inténtalo más tarde.');
     }
   }
 
@@ -68,6 +68,6 @@ export class TasksCreatePage implements OnInit {
   }
 
   goTo() {
-    this.router.navigate(['/tasks']); // Redirigir al dashboard
+    this.router.navigate(['/tasks']); // Redirigir a la lista de tareas
   }
 }

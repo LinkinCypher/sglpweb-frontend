@@ -35,7 +35,7 @@
       <ion-label>Caso</ion-label>
       <ion-select [(ngModel)]="form.casoId" name="casoId" required>
         <ion-select-option *ngFor="let caso of casos" [value]="caso._id">
-          {{ caso.numeroCaso }} - {{ caso.nombre }}
+          {{ caso.numeroCaso }} : {{ caso.tipo }}
         </ion-select-option>
       </ion-select>
     </ion-item>

@@ -43,8 +43,10 @@ export class TasksService {
 
   // Eliminar una tarea (eliminación lógica)
   deleteTask(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
-  }
+    return this.http.delete(`${this.apiUrl}/${id}`, {
+      headers: this.getHeaders(),
+    });
+  }  
 
   // Obtener todos los casos
   getAllCases(): Observable<any[]> {

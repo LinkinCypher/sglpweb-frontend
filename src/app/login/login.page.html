@@ -1,23 +1,58 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Iniciar Sesión</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Bienvenido</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form (submit)="onLogin()">
-    <ion-item>
-      <ion-label position="floating">Usuario</ion-label>
-      <ion-input [(ngModel)]="credentials.username" name="username" required></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input [(ngModel)]="credentials.password" name="password" type="password" required></ion-input>
-    </ion-item>
-    <ion-button expand="block" type="submit">Ingresar</ion-button>
-  </form>
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <!-- Logo o imagen -->
+    <div class="logo-container ion-margin-bottom">
+      <ion-img src="assets/logo.png" alt="Logo" class="logo"></ion-img>
+    </div>
 
-  <ion-button expand="block" color="secondary" (click)="viewCasesWithTasks()">
-    Ver Casos y Tareas
-  </ion-button>
+    <form (submit)="onLogin()" class="ion-margin">
+      <ion-card>
+        <ion-card-content>
+          <ion-item lines="full">
+            <ion-label position="floating">Usuario</ion-label>
+            <ion-input [(ngModel)]="credentials.username" 
+                      name="username" 
+                      required
+                      class="custom-input"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating">Contraseña</ion-label>
+            <ion-input [(ngModel)]="credentials.password" 
+                      name="password" 
+                      type="password" 
+                      required
+                      class="custom-input"
+            ></ion-input>
+          </ion-item>
+
+          <div class="ion-margin-top">
+            <ion-button expand="block" 
+                      type="submit" 
+                      shape="round"
+                      class="ion-margin-bottom">
+              <ion-icon name="log-in-outline" slot="start"></ion-icon>
+              Ingresar
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </form>
+
+    <ion-button expand="block" 
+                color="secondary" 
+                shape="round"
+                (click)="viewCasesWithTasks()"
+                class="ion-margin-horizontal">
+      <ion-icon name="list-outline" slot="start"></ion-icon>
+      Ver Casos y Tareas
+    </ion-button>
+  </div>
 </ion-content>

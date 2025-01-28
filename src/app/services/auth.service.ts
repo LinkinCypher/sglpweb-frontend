@@ -14,4 +14,9 @@ export class AuthService {
   login(credentials: { username: string; password: string }) {
     return this.http.post<{ token: string }>(`${this.apiUrl}/login`, credentials).toPromise();
   }
+
+  // Obtener todos los casos junto con las tareas asociadas
+  getCasesWithTasks() {
+    return this.http.get<any[]>(`${this.apiUrl}/with-tasks`).toPromise();
+  }
 }

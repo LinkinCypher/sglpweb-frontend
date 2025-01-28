@@ -1,10 +1,37 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goTo()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Calendario</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <!-- Calendario con días resaltados -->
-  <ion-datetime presentation="date" [highlightedDates]="highlightedDates"></ion-datetime>
+  <ion-datetime
+    presentation="date"
+    [highlightedDates]="highlightedDates"
+    (ionChange)="onDateSelected($event)"
+  ></ion-datetime>
+
+  <!-- Lista de tareas para la fecha seleccionada -->
+  <div *ngIf="selectedTasks.length > 0">
+    <ion-list>
+      <ion-list-header>Tareas para {{ selectedDate }}</ion-list-header>
+      <ion-item *ngFor="let task of selectedTasks">
+        <ion-label>
+          <h2>{{ task.titulo }}</h2>
+          <p>{{ task.descripcion }}</p>
+          <p><strong>Estado:</strong> {{ task.estado }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="selectedTasks.length === 0 && selectedDate">
+    <p>No hay tareas para {{ selectedDate }}</p>
+  </div>
 </ion-content>

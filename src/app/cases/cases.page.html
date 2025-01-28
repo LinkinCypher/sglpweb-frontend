@@ -7,36 +7,40 @@
     </ion-buttons>
     <ion-title>Gestión de Casos</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="logout()">
-        <ion-icon name="close" size="large" color="danger"></ion-icon>
+      <ion-button (click)="logout()" color="danger">
+        Salir
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let caso of casos">
-      <ion-label>
-        <h2>{{ caso.numeroCaso }}</h2>
-        <p>Cliente: {{ caso.nombreCliente }} - Caso: {{ caso.tipo }}</p>
-        <p>Detalle: {{ caso.detalles }}</p>
-      </ion-label>
-      <ion-buttons slot="end">
+  <div *ngFor="let caso of casos" class="case-card">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ caso.numeroCaso }}</ion-card-title>
+        <ion-card-subtitle>Cliente: {{ caso.nombreCliente }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Tipo de Caso:</strong> {{ caso.tipo }}</p>
+        <p><strong>Detalle:</strong> {{ caso.detalles }}</p>
+      </ion-card-content>
+      <div class="card-footer">
         <ion-button (click)="editCase(caso)" color="primary">
+          <ion-icon name="create-outline" slot="start"></ion-icon>
           Editar
         </ion-button>
-        <ion-button (click)="confirmDeleteCase(caso._id)" color="primary">
+        <ion-button (click)="confirmDeleteCase(caso._id)" color="danger">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
           Eliminar
         </ion-button>
-      </ion-buttons>
-    </ion-item>
-  </ion-list>
+      </div>
+    </ion-card>
+  </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addCase()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    
   </ion-fab>
 </ion-content>

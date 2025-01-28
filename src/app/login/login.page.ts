@@ -41,4 +41,8 @@ export class LoginPage {
       alert('Credenciales inválidas o error en el servidor.');
     }
   }
+
+  viewCasesWithTasks() {
+    this.router.navigate(['/cases-tasks']);
+  }
 }

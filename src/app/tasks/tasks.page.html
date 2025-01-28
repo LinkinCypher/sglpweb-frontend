@@ -4,7 +4,7 @@
       <ion-button (click)="goTo()">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons>  
     <ion-title>Tareas</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="navigateToUpcomingTasks()">
@@ -14,10 +14,10 @@
         </ion-badge>
       </ion-button>
       <ion-button (click)="loadTasks()">
-        <ion-icon name="refresh" size="large" color="primary"></ion-icon>
+        <ion-icon slot="icon-only" name="refresh" color="primary"></ion-icon>
       </ion-button>
-      <ion-button (click)="logout()">
-        <ion-icon name="close" size="large" color="danger"></ion-icon>
+      <ion-button (click)="logout()" color="danger">
+        Salir
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

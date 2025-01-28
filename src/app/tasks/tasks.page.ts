@@ -178,4 +178,19 @@ export class TasksPage implements OnInit {
         return 'light';
     }
   }
+
+  getIconForState(state: string): string {
+    switch (state.toLowerCase()) {
+      case 'pendiente':
+        return 'time-outline';
+      case 'en progreso':
+        return 'play-outline';
+      case 'completada':
+        return 'checkmark-circle-outline';
+      case 'eliminada':
+        return 'trash-outline';
+      default:
+        return 'help-outline';
+    }
+  }
 }

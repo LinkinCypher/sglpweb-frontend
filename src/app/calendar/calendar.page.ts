@@ -92,4 +92,17 @@ export class CalendarPage implements OnInit {
   goTo() {
     this.router.navigate(['/dashboard']); // Navegar hacia el Dashboard
   }
+
+  getStatusColor(estado: string): string {
+    switch (estado.toLowerCase()) {
+      case 'pendiente':
+        return 'warning';
+      case 'en progreso':
+        return 'primary';
+      case 'completada':
+        return 'success';
+      default:
+        return 'medium';
+    }
+  }
 }

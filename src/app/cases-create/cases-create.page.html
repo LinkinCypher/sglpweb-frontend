@@ -5,30 +5,71 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Crear Caso</ion-title>
+    <ion-title class="ion-text-center">Crear Caso</ion-title> 
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form (submit)="onSubmit()">
-    <ion-list>
-      <ion-item>
-        <ion-label position="stacked">Nombre del Cliente</ion-label>
-        <ion-input [(ngModel)]="form.nombreCliente" name="nombreCliente" required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Tipo de Caso</ion-label>
-        <ion-input [(ngModel)]="form.tipo" name="tipo" required></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Fecha de Inicio</ion-label>
-        <ion-datetime [(ngModel)]="form.fechaInicio" name="fechaInicio" presentation="date" required></ion-datetime>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Detalles</ion-label>
-        <ion-textarea [(ngModel)]="form.detalles" name="detalles"></ion-textarea>
-      </ion-item>
-    </ion-list>
-    <ion-button expand="block" type="submit">Guardar</ion-button>
-  </form>
+<ion-content class="ion-padding"> 
+  <ion-card class="form-card"> 
+    <ion-card-content>
+      <form (submit)="onSubmit()">
+        <ion-list class="form-list">
+          <ion-item class="form-item">
+            <ion-label position="stacked">Nombre del Cliente</ion-label>
+            <ion-input 
+              [(ngModel)]="form.nombreCliente" 
+              name="nombreCliente" 
+              required 
+              class="custom-input" 
+              placeholder="Ingrese el nombre del cliente">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-label position="stacked">Tipo de Caso</ion-label>
+            <ion-input 
+              [(ngModel)]="form.tipo" 
+              name="tipo" 
+              required 
+              class="custom-input" 
+              placeholder="Ingrese el tipo de caso">
+            </ion-input>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-label position="stacked">Fecha de Inicio</ion-label>
+            <ion-datetime 
+              [(ngModel)]="form.fechaInicio" 
+              name="fechaInicio" 
+              presentation="date" 
+              required 
+              class="custom-datetime">
+            </ion-datetime>
+          </ion-item>
+
+          <ion-item class="form-item">
+            <ion-label position="stacked">Detalles</ion-label>
+            <ion-textarea 
+              [(ngModel)]="form.detalles" 
+              name="detalles"
+              class="custom-textarea" 
+              placeholder="Ingrese los detalles del caso" 
+              rows="4">
+            </ion-textarea>
+          </ion-item>
+        </ion-list>
+
+        <div class="button-container">
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            class="submit-button" 
+            shape="round">
+            <ion-icon name="save-outline" slot="start"></ion-icon>
+            Guardar
+          </ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

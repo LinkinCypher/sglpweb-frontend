@@ -5,56 +5,92 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Editar Tarea</ion-title>
+    <ion-title class="ion-text-center">Editar Tarea</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form (ngSubmit)="saveTask()">
-    <ion-item>
-      <ion-label position="stacked">Título</ion-label>
-      <ion-input [(ngModel)]="task.titulo" name="titulo"></ion-input>
-    </ion-item>
+<ion-content class="ion-padding">
+  <ion-card class="form-card">
+    <ion-card-content>
+      <form (ngSubmit)="saveTask()">
+        <ion-list class="form-list">
+          <ion-item class="form-item">
+            <ion-label position="stacked">Título</ion-label>
+            <ion-input 
+              [(ngModel)]="task.titulo" 
+              name="titulo" 
+              required 
+              class="custom-input" 
+              placeholder="Ingrese el título de la tarea">
+            </ion-input>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Descripción</ion-label>
-      <ion-textarea [(ngModel)]="task.descripcion" name="descripcion"></ion-textarea>
-    </ion-item>
+          <ion-item class="form-item">
+            <ion-label position="stacked">Descripción</ion-label>
+            <ion-textarea 
+              [(ngModel)]="task.descripcion" 
+              name="descripcion" 
+              class="custom-textarea" 
+              placeholder="Ingrese la descripción de la tarea">
+            </ion-textarea>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Fecha Límite</ion-label>
-      <ion-datetime [(ngModel)]="task.fechaLimite" name="fechaLimite"></ion-datetime>
-    </ion-item>
+          <ion-item class="form-item">
+            <ion-label position="stacked">Fecha Límite</ion-label>
+            <ion-datetime 
+              [(ngModel)]="task.fechaLimite" 
+              name="fechaLimite" 
+              presentation="date" 
+              required 
+              class="custom-datetime">
+            </ion-datetime>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Estado</ion-label>
-      <ion-select [(ngModel)]="task.estado" name="estado">
-        <ion-select-option value="pendiente">Pendiente</ion-select-option>
-        <ion-select-option value="en progreso">En Progreso</ion-select-option>
-        <ion-select-option value="completada">Completada</ion-select-option>
-      </ion-select>
-    </ion-item>
+          <ion-item class="form-item">
+            <ion-label position="stacked">Estado</ion-label>
+            <ion-select [(ngModel)]="task.estado" name="estado" required>
+              <ion-select-option value="pendiente">Pendiente</ion-select-option>
+              <ion-select-option value="en progreso">En Progreso</ion-select-option>
+              <ion-select-option value="completada">Completada</ion-select-option>
+            </ion-select>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Asignar a Usuario</ion-label>
-      <ion-select [(ngModel)]="task.assignedTo" name="assignedTo" required>
-        <ion-select-option *ngFor="let user of users" [value]="user._id">
-          {{ user.username }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+          <ion-item class="form-item">
+            <ion-label position="stacked">Asignar a Usuario</ion-label>
+            <ion-select [(ngModel)]="task.assignedTo" name="assignedTo" required>
+              <ion-select-option *ngFor="let user of users" [value]="user._id">
+                {{ user.username }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
 
-    <ion-list>
-      <ion-item *ngFor="let evidence of task.evidencias; let i = index">
-        <ion-label position="stacked">Enlace de Evidencia {{ i + 1 }}</ion-label>
-        <ion-input [(ngModel)]="task.evidencias[i]" name="evidencias-{{ i }}"></ion-input>
-        <ion-button slot="end" color="danger" (click)="removeEvidence(i)">
-          <ion-icon name="trash"></ion-icon>
-        </ion-button>
-      </ion-item>
-      <ion-button expand="block" (click)="addEvidence()">Agregar Enlace</ion-button>
-    </ion-list>
+          <ion-list>
+            <ion-item *ngFor="let evidence of task.evidencias; let i = index">
+              <ion-input 
+                [(ngModel)]="task.evidencias[i]" 
+                name="evidencias-{{ i }}" 
+                class="custom-input" 
+                placeholder="Ingrese el enlace de evidencia">
+              </ion-input>
+              <ion-button slot="end" color="danger" (click)="removeEvidence(i)">
+                <ion-icon name="trash"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <ion-button expand="block" (click)="addEvidence()">Agregar Enlace</ion-button>
+          </ion-list>
+        </ion-list>
 
-    <ion-button expand="block" type="submit">Guardar Cambios</ion-button>
-  </form>
+        <div class="button-container">
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            class="submit-button" 
+            shape="round">
+            <ion-icon name="save-outline" slot="start"></ion-icon>
+            Guardar Cambios
+          </ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

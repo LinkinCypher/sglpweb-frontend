@@ -9,29 +9,54 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <!-- Calendario con días resaltados -->
-  <ion-datetime
-    presentation="date"
-    [highlightedDates]="highlightedDates"
-    (ionChange)="onDateSelected($event)"
-  ></ion-datetime>
+<ion-content class="ion-padding">
+  <div class="calendar-container">
+    <!-- Contenedor del calendario -->
+    <ion-card class="calendar-card">
+      <ion-card-content>
+        <ion-datetime
+          presentation="date"
+          [highlightedDates]="highlightedDates"
+          (ionChange)="onDateSelected($event)"
+          class="custom-calendar"
+        ></ion-datetime>
+      </ion-card-content>
+    </ion-card>
 
-  <!-- Lista de tareas para la fecha seleccionada -->
-  <div *ngIf="selectedTasks.length > 0">
-    <ion-list>
-      <ion-list-header>Tareas para {{ selectedDate }}</ion-list-header>
-      <ion-item *ngFor="let task of selectedTasks">
-        <ion-label>
-          <h2>{{ task.titulo }}</h2>
-          <p>{{ task.descripcion }}</p>
-          <p><strong>Estado:</strong> {{ task.estado }}</p>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
+    <!-- Lista de tareas para la fecha seleccionada -->
+    <div *ngIf="selectedTasks.length > 0" class="tasks-container">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title class="ion-text-center">
+            Tareas para {{ selectedDate }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list lines="none">
+            <ion-item *ngFor="let task of selectedTasks" class="task-item">
+              <ion-label>
+                <h2>{{ task.titulo }}</h2>
+                <p class="task-description">{{ task.descripcion }}</p>
+                <div class="task-status">
+                  <ion-badge [color]="getStatusColor(task.estado)">
+                    {{ task.estado }}
+                  </ion-badge>
+                </div>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
-  <div *ngIf="selectedTasks.length === 0 && selectedDate">
-    <p>No hay tareas para {{ selectedDate }}</p>
+    <!-- Mensaje cuando no hay tareas -->
+    <div *ngIf="selectedTasks.length === 0 && selectedDate" class="no-tasks-container">
+      <ion-card>
+        <ion-card-content class="ion-text-center">
+          <ion-icon name="calendar-outline" size="large"></ion-icon>
+          <p>No hay tareas programadas para {{ selectedDate }}</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
 </ion-content>

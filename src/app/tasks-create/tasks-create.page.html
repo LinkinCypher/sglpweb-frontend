@@ -5,61 +5,93 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Crear Tarea</ion-title>
+    <ion-title class="ion-text-center">Crear Tarea</ion-title> 
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form (ngSubmit)="onSubmit()">
-    <ion-item>
-      <ion-label position="floating">Título</ion-label>
-      <ion-input [(ngModel)]="form.titulo" name="titulo" required></ion-input>
-    </ion-item>
+<ion-content class="ion-padding">
+  <ion-card class="form-card">
+    <ion-card-content>
+      <form (ngSubmit)="onSubmit()">
+        <ion-list class="form-list">
+          <ion-item class="form-item">
+            <ion-label position="stacked">Título</ion-label>
+            <ion-input 
+              [(ngModel)]="form.titulo" 
+              name="titulo" 
+              required 
+              class="custom-input" 
+              placeholder="Ingrese el título de la tarea">
+            </ion-input>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Descripción</ion-label>
-      <ion-textarea [(ngModel)]="form.descripcion" name="descripcion"></ion-textarea>
-    </ion-item>
+          <ion-item class="form-item">
+            <ion-label position="stacked">Descripción</ion-label>
+            <ion-textarea 
+              [(ngModel)]="form.descripcion" 
+              name="descripcion" 
+              class="custom-textarea" 
+              placeholder="Ingrese la descripción de la tarea">
+            </ion-textarea>
+          </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Fecha Límite</ion-label>
-      <ion-datetime
-        [(ngModel)]="form.fechaLimite"
-        name="fechaLimite"
-        presentation="date"
-        required
-      ></ion-datetime>
-    </ion-item>
+          <ion-item class="form-item">
+            <ion-label position="stacked">Fecha Límite</ion-label>
+            <ion-datetime 
+              [(ngModel)]="form.fechaLimite" 
+              name="fechaLimite" 
+              presentation="date" 
+              required 
+              class="custom-datetime">
+            </ion-datetime>
+          </ion-item>
 
-    <ion-item>
-      <ion-label>Caso</ion-label>
-      <ion-select [(ngModel)]="form.casoId" name="casoId" required>
-        <ion-select-option *ngFor="let caso of casos" [value]="caso._id">
-          {{ caso.numeroCaso }} : {{ caso.tipo }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+          <ion-item class="form-item">
+            <ion-label position="stacked">Caso</ion-label>
+            <ion-select [(ngModel)]="form.casoId" name="casoId" required>
+              <ion-select-option *ngFor="let caso of casos" [value]="caso._id">
+                {{ caso.numeroCaso }} : {{ caso.tipo }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
 
-    <ion-item>
-      <ion-label>Asignar a</ion-label>
-      <ion-select [(ngModel)]="form.assignedTo" name="assignedTo" required>
-        <ion-select-option *ngFor="let user of usuarios" [value]="user._id">
-          {{ user.nombre }} ({{ user.username }})
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+          <ion-item class="form-item">
+            <ion-label position="stacked">Asignar a</ion-label>
+            <ion-select [(ngModel)]="form.assignedTo" name="assignedTo" required>
+              <ion-select-option *ngFor="let user of usuarios" [value]="user._id">
+                {{ user.nombre }} {{ user.username }}
+              </ion-select-option>
+            </ion-select>
+          </ion-item>
 
-    <ion-list>
-      <ion-item *ngFor="let evidence of form.evidencias; let i = index">
-        <ion-label position="floating">Enlace de Evidencia {{ i + 1 }}</ion-label>
-        <ion-input [(ngModel)]="form.evidencias[i]" name="evidencias-{{ i }}"></ion-input>
-        <ion-button slot="end" color="danger" (click)="removeEvidence(i)">
-          <ion-icon name="trash"></ion-icon>
-        </ion-button>
-      </ion-item>
-      <ion-button expand="block" (click)="addEvidence()">Agregar Enlace</ion-button>
-    </ion-list>
+          <ion-list>
+            <ion-item *ngFor="let evidence of form.evidencias; let i = index">
+              <ion-input 
+                [(ngModel)]="form.evidencias[i]" 
+                name="evidencias-{{ i }}" 
+                class="custom-input" 
+                placeholder="Ingrese el enlace">
+              </ion-input>
+              <ion-button slot="end" color="danger" (click)="removeEvidence(i)">
+                <ion-icon name="trash"></ion-icon>
+              </ion-button>
+            </ion-item>
+            <ion-button expand="block" (click)="addEvidence()">Agregar Enlace</ion-button>
+          </ion-list>
 
-    <ion-button expand="block" type="submit">Crear Tarea</ion-button>
-  </form>
+        </ion-list>
+
+        <div class="button-container">
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            class="submit-button" 
+            shape="round">
+            <ion-icon name="save-outline" slot="start"></ion-icon>
+            Crear Tarea
+          </ion-button>
+        </div>
+      </form>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

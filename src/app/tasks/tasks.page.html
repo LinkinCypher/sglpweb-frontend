@@ -5,66 +5,103 @@
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>  
-    <ion-title>Tareas</ion-title>
+    <ion-title class="ion-text-center">Tareas</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="navigateToUpcomingTasks()">
-        <ion-icon name="notifications-outline"></ion-icon>
-        <ion-badge *ngIf="upcomingTasksCount > 0" color="danger">
+      <ion-button (click)="navigateToUpcomingTasks()" class="notification-button">
+        <ion-icon name="notifications-outline" size="large"></ion-icon>
+        <ion-badge *ngIf="upcomingTasksCount > 0" color="danger" class="notification-badge">
           {{ upcomingTasksCount }}
         </ion-badge>
       </ion-button>
-      <ion-button (click)="loadTasks()">
-        <ion-icon slot="icon-only" name="refresh" color="primary"></ion-icon>
+      <ion-button (click)="loadTasks()" class="refresh-button" color="primary">
+        <ion-icon slot="icon-only" name="refresh" size="large"></ion-icon>
       </ion-button>
-      <ion-button (click)="logout()" color="danger">
+      <ion-button (click)="logout()" color="danger" class="logout-button">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
         Salir
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div *ngFor="let state of ['pendiente', 'en progreso', 'completada', 'eliminada']">
-    <ion-card [color]="getColorForState(state)">
-      <ion-card-header>
-        <ion-card-title>{{ state | titlecase }}</ion-card-title>
-      </ion-card-header>
+<ion-content class="ion-padding">
+  <div class="tasks-container">
+    <div *ngFor="let state of ['pendiente', 'en progreso', 'completada', 'eliminada']" class="state-section animate__animated animate__fadeIn">
+      <ion-card [color]="getColorForState(state)" class="state-card">
+        <ion-card-header>
+          <div class="card-header-content">
+            <ion-card-title>
+              <ion-icon [name]="getIconForState(state)"></ion-icon>
+              {{ state | titlecase }}
+            </ion-card-title>
+            <ion-badge class="task-count" [color]="getColorForState(state)">
+              {{ groupedTasks[state].length }}
+            </ion-badge>
+          </div>
+        </ion-card-header>
 
-      <ion-card-content>
-        <ion-list *ngIf="groupedTasks[state].length > 0">
-          <ion-item *ngFor="let task of groupedTasks[state]">
-            <ion-label>
-              <h2>{{ task.titulo }}</h2>
-              <p>Estado: {{ task.estado }} - Fecha Límite: {{ task.fechaLimite | date }}</p>
-              <div *ngIf="task.evidencias.length > 0">
-                <h3>Evidencias:</h3>
-                <ul>
-                  <li *ngFor="let link of task.evidencias">
-                    <a [href]="link" target="_blank" [title]="link">{{ link | slice: 0:30 }}...</a>
-                  </li>
-                </ul>
+        <ion-card-content>
+          <ion-list *ngIf="groupedTasks[state].length > 0" class="tasks-list">
+            <ion-item *ngFor="let task of groupedTasks[state]" class="task-item" lines="full">
+              <div class="task-content">
+                <div class="task-header">
+                  <h2 class="task-title">{{ task.titulo }}</h2>
+                  <div class="task-date">
+                    <ion-icon name="calendar-outline" color="medium"></ion-icon>
+                    <span>{{ task.fechaLimite | date }}</span>
+                  </div>
+                </div>
+
+                <div class="task-description">
+                  <ion-icon name="document-text-outline" color="medium"></ion-icon>
+                  <p>{{ task.descripcion || 'Sin descripción' }}</p>
+                </div>
+
+                <div class="evidence-section" *ngIf="task.evidencias.length > 0">
+                  <h3 class="evidence-title">
+                    <ion-icon name="document-attach-outline"></ion-icon>
+                    Evidencias:
+                  </h3>
+                  <div class="evidence-links">
+                    <a *ngFor="let link of task.evidencias" 
+                       [href]="link" 
+                       target="_blank" 
+                       class="evidence-link">
+                      <ion-icon name="link-outline"></ion-icon>
+                      {{ link | slice: 0:30 }}...
+                    </a>
+                  </div>
+                </div>
+
+                <p *ngIf="task.evidencias.length === 0" class="no-evidence">
+                  <ion-icon name="information-circle-outline"></ion-icon>
+                  No hay evidencias para esta tarea.
+                </p>
+
+                <div class="task-actions" *ngIf="state !== 'eliminada'">
+                  <ion-button (click)="editTask(task)" fill="clear" color="primary" class="action-button">
+                    <ion-icon name="create-outline" slot="start"></ion-icon>
+                    Editar
+                  </ion-button>
+                  <ion-button (click)="confirmDelete(task._id)" fill="clear" color="danger" class="action-button">
+                    <ion-icon name="trash-outline" slot="start"></ion-icon>
+                    Eliminar
+                  </ion-button>
+                </div>
               </div>
-              <div *ngIf="task.evidencias.length === 0">
-                <p>No hay evidencias para esta tarea.</p>
-              </div>
-            </ion-label>
-            <ion-buttons slot="end">
-              <ion-button (click)="editTask(task)" color="primary" *ngIf="state !== 'eliminada'">
-                Editar
-              </ion-button>
-              <ion-button color="danger" (click)="confirmDelete(task._id)" *ngIf="state !== 'eliminada'">
-                Eliminar
-              </ion-button>
-            </ion-buttons>
-          </ion-item>
-        </ion-list>
-        <p *ngIf="groupedTasks[state].length === 0">No hay tareas en esta categoría.</p>
-      </ion-card-content>
-    </ion-card>
+            </ion-item>
+          </ion-list>
+          <p *ngIf="groupedTasks[state].length === 0" class="no-tasks">
+            <ion-icon name="folder-open-outline"></ion-icon>
+            No hay tareas en esta categoría.
+          </p>
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addTask()">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="fab-button">
+    <ion-fab-button (click)="addTask()" color="primary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

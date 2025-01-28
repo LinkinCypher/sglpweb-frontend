@@ -1,0 +1,131 @@
+// Variables for consistent colors
+:root {
+    --law-primary: #2c3e50;
+    --law-secondary: #34495e;
+    --law-accent: #c0932b;
+    --law-text: #2c3e50;
+    --law-background: #f8f9fa;
+    --law-card-bg: #ffffff;
+  }
+  
+  // Header styles
+  ion-header {
+    ion-toolbar {
+      --background: var(--law-primary);
+      --color: white;
+      --border-color: transparent;
+      
+      ion-title {
+        font-family: 'Times New Roman', serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+  
+      ion-button {
+        --color: #e74c3c;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+      }
+    }
+  }
+  
+  // Content styles
+  ion-content {
+    --background: var(--law-background);
+    font-family: 'Georgia', serif;
+  
+    // Welcome card styles
+    ion-card {
+      margin: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.151);
+      border-left: 4px solid var(--law-accent);
+      background: var(--law-card-bg);
+  
+      ion-card-header {
+        padding: 20px 20px 0;
+  
+        ion-card-title {
+          color: var(--law-primary);
+          font-size: 1.8rem;
+          font-weight: 600;
+          font-family: 'Times New Roman', serif;
+        }
+      }
+  
+      ion-card-content {
+        padding: 20px;
+        color: var(--law-text);
+        font-size: 1.1rem;
+        line-height: 1.5;
+      }
+    }
+  
+    // Navigation list styles
+    ion-list {
+      background: transparent;
+      padding: 10px 20px;
+      
+      ion-item {
+        --background: var(--law-card-bg);
+        --background-hover: rgb(55, 0, 255);
+        --background-activated: rgba(44, 62, 80, 0.1);
+        margin-bottom: 12px;
+        border-radius: 8px;
+        --border-color: transparent;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.228);
+        transition: transform 0.2s ease;
+  
+        &:hover {
+          transform: translateX(4px);
+        }
+  
+        ion-icon {
+          color: var(--law-accent);
+          font-size: 1.4rem;
+          margin-right: 12px;
+        }
+  
+        ion-label {
+          color: var(--law-text);
+          font-size: 1.1rem;
+          font-weight: 500;
+          letter-spacing: 0.3px;
+          padding: 12px 0;
+        }
+      }
+    }
+  }
+  
+  // Animations
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  ion-card, ion-item {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+  
+  // Media queries for responsive design
+  @media (min-width: 768px) {
+    ion-content {
+      ion-card {
+        max-width: 700px;
+        margin: 20px auto;
+      }
+  
+      ion-list {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+    }
+  }

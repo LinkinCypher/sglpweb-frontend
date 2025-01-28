@@ -37,4 +37,9 @@ export class CasesService {
   deleteCase(id: string): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
+
+  // Obtener casos con tareas asociadas (sin autenticación)
+  getCasesWithTasks(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/with-tasks`);
+  }
 }

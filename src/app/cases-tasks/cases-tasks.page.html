@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goTo()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Casos y Tareas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Barra de búsqueda -->
+  <ion-searchbar
+    [(ngModel)]="searchQuery"
+    placeholder="Buscar por Número de Caso o Cliente"
+    (ionInput)="filterCases()"
+  ></ion-searchbar>
+
+  <!-- Tabla de casos y tareas -->
+  <ion-card color="light">
+    <ion-grid>
+      <ion-row class="header-row">
+        <ion-col size="3"><strong>Número de Caso</strong></ion-col>
+        <ion-col size="3"><strong>Cliente</strong></ion-col>
+        <ion-col size="6"><strong>Tareas</strong></ion-col>
+      </ion-row>
+
+      <ion-row *ngFor="let caseItem of filteredCases">
+        <ion-col size="3">{{ caseItem.numeroCaso }}</ion-col>
+        <ion-col size="3">{{ caseItem.nombreCliente }}</ion-col>
+        <ion-col size="6">
+          <ul>
+            <li *ngFor="let task of caseItem.tareas">
+              <strong>{{ task.titulo }}:</strong> {{ task.estado }}
+            </li>
+          </ul>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card>
+</ion-content>

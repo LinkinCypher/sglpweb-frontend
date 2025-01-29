@@ -30,14 +30,15 @@ export class CasesTasksPage implements OnInit {
   async loadCasesWithTasks() {
     try {
       const response = await this.casesService.getCasesWithTasks().toPromise();
-      this.cases = response || []; // Asegurar que siempre sea un arreglo
-      this.filteredCases = [...this.cases]; // Inicializar la lista filtrada
+      console.log('Datos recibidos en el frontend:', response);
+      this.cases = response || [];
+      this.filteredCases = [...this.cases];
     } catch (error) {
       console.error('Error al cargar los casos con tareas:', error);
-      this.cases = []; // Si hay un error, se asigna un arreglo vacío
+      this.cases = [];
       this.filteredCases = [];
     }
-  }
+  }  
 
   // Filtrar casos según el término de búsqueda
   filterCases() {

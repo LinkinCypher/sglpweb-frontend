@@ -6,13 +6,14 @@
 </p>
 
 
+
 ## 📥 Clonar el repositorio
 Se puede descargar y descomprimir el código fuente en el equipo, o ejecutar los siguientes comandos en la terminal:
 ```bash
 cd C:/proyecto/
 ```
 ```bash
-git clone https://github.com/tu-usuario/sglpweb-frontend.git
+git clone https://github.com/LinkinCypher/sglpweb-frontend.git
 ```
 ```bash
 cd sglpweb-frontend
@@ -47,8 +48,10 @@ ionic serve
 ```
 
 
+
 ## 🏛️ Ejecutar el backend
 El código y las instrucciones para ejecutar el backend se encuentran en el siguiente repositorio: 👉 <a href="https://github.com/LinkinCypher/sglpweb-backend" target="_blank">Backend LegalPro</a>
+
 
 
 ## 📌 Cómo usar la aplicación

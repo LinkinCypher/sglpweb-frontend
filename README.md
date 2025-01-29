@@ -7,7 +7,7 @@
 
 
 ## 📥 Clonar el repositorio
-Para descargar el código fuente en tu equipo, ejecuta los siguientes comandos en la terminal:
+Se puede descargar y descomprimir el código fuente en el equipo, o ejecutar los siguientes comandos en la terminal:
 ```bash
 cd C:/proyecto/
 ```
@@ -20,18 +20,16 @@ cd sglpweb-frontend
 
 
 
-
-
 ## 🖥️ Instalación en Windows
-Antes de continuar, asegúrate de tener instaladas las siguientes herramientas:
-<a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a>
-<a href="https://git-scm.com/download/" target="_blank">Git</a>
-<a href="https://nodejs.org/en" target="_blank">Node</a>
+Las siguientes herramientas son importantes:
+<li><a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a></li>
+<li><a href="https://git-scm.com/download/" target="_blank">Git</a></li>
+<li><a href="https://nodejs.org/en" target="_blank">Node</a></li>
 
 
 
 ## ⚙️ Ejecutar el frontend
-Abrir la terminal (CMD o PowerShell) y navegar a la carpeta del proyecto:
+Abrir la terminal (CMD o PowerShell) y navegar a la carpeta del proyecto (ejemplo):
 ```bash
 cd C:/proyecto/sglpweb-frontend
 ```

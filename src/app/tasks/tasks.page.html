@@ -26,7 +26,7 @@
 
 <ion-content class="ion-padding">
   <div class="tasks-container">
-    <div *ngFor="let state of ['pendiente', 'en progreso', 'completada', 'eliminada']" class="state-section animate__animated animate__fadeIn">
+    <div *ngFor="let state of ['pendiente', 'en progreso', 'completada']" class="state-section animate__animated animate__fadeIn">
       <ion-card [color]="getColorForState(state)" class="state-card">
         <ion-card-header>
           <div class="card-header-content">

@@ -23,7 +23,7 @@ cd sglpweb-frontend
 ## 🖥️ Instalación en Windows
 Las siguientes herramientas son importantes:
 <li><a href="https://code.visualstudio.com/" target="_blank">Visual Studio Code</a></li>
-<li><a href="https://git-scm.com/download/" target="_blank">Git</a></li>
+<li><a href="https://git-scm.com/" target="_blank">Git</a></li>
 <li><a href="https://nodejs.org/en" target="_blank">Node</a></li>
 
 
